@@ -17,11 +17,12 @@ var db;
 function errorHandler(err, req, res, next) {
     console.error(err.message);
     console.error(err.stack);
-    res.status(500).render('error_template.html', { error: err });
+    //res.status(500).render('error_template.html', { error: err });
 }
 
 // viewed at http://localhost:8080
-app.use(express.static(path.join(__dirname, '/public')));
+console.log(__dirname);
+app.use(express.static(path.join(__dirname, '/view')));
 app.engine('html', engines.ejs);
 app.set('view engine', 'html');
 
@@ -45,6 +46,6 @@ MongoClient.connect('mongodb://admin:YDAUDXSAYQKTKTSD@sl-us-south-1-portal.15.db
     });
 });
 
-app.get('/', (res,req) => {
-    req.render("Fuck off jason!");
+app.get('/', (re1,res) => {
+    res.render("random.html");
 })
