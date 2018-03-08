@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 const RoomSchema = new Schema(
     {
-        id:{type:string},
-        building:{type:string},
-        rating:{type:float},
+        id:{type:String},
+        building:{type:String},
+        rating:{type:String},
         comments:[]
     }
 )
