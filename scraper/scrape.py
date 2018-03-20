@@ -18,8 +18,11 @@ chromedriver = "/Users/jasonlee/CS4471/scraper/chromedriver"
 driver = webdriver.Chrome(chromedriver)
 driver.get(url)
 
-courseCodes = ["ACTURSCI", "AMERICAN", "ANATCELL", "ANTHRO", "APPLMATH", "ARABIC", "ARTHUM", "ASTRONOM", "BIBLSTUD", "BIOCHEM", "BIOLOGY", "BIOSTATS", "MTP-RADO", "MTP-TVSN", "MTP-FLDP", "BUSINESS", "CALCULUS", "CGS", "CBE", "CHEMBIO", "CHEM", "CSI", "CHINESE", "CHURCH", "CHURLAW", "CHURMUSI", "CEE", "CLASSICS", "CMBPROG", "COMMSCI", "COMPLIT", "COMPSCI", "DANCE", "DIGICOMM", "MTP-DIGL", "DIGIHUM", "DOL", "DISABST", "EARTHSCI", "ECONOMIC", "EELC", "ECE", "ENGSCI", "ENGLISH", "ENVIRSCI", "EPID", "EPIDEMIO", "FAMLYSTU", "FLDEDUC", "MTP-FILM", "FILM", "FINMOD", "FRSTNATN", "FOODNUTR", "FRENCH", "GEOGRAPH", "GEOLOGY", "GEOPHYS", "GERMAN", "GREEK", "GPE", "HEALTSCI", "HEBREW", "HINDI", "HISTTHEO", "HISTORY", "HISTSCI", "HOMILET", "HUMANECO", "INTEGSCI", "ICC", "INTERDIS", "INTREL", "ITALIAN", "JAPANESE", "JEWISH", "MTP-BRJR", "KINESIOL", "LATIN", "LAW", "LINGUIST", "LITURST", "LITURGIC", "MOS", "MTP-MKTG", "MATH", "MME", "MSE", "MIT", "MEDBIO", "MEDHINFO", "MEDSCIEN", "MEDIEVAL", "MICROIMM", "MORALTHE", "MTP-MMED", "MUSIC", "NEURO", "NURSING", "PASTTHEO", "PATHOL", "PERSIAN", "PHARM", "PHILST", "PHILOSOP", "PHYSICS", "PHYSIOL", "PHYSPHRM", "POLISCI", "PORTUGSE", "PSYCHOL", "REHABSCI", "RELEDUC", "RELSTUD", "SACRTHEO", "SCHOLARS", "SCIENCE", "SOCLJUST", "SOCWORK", "SOCIOLOG", "SE", "SPANISH", "SPEECH", "SPIRTHEO", "STATS", "SUPPAST", "SYSTHEO", "THANAT", "THEATRE", "THEOETH", "THEOLST", "THESIS", "TJ", "VAHISTRY", "VASTUDIO", "WTC", "WOMENST", "WORLDLIT", "WRITING"] 
+# courseCodes = ["ACTURSCI", "AMERICAN", "ANATCELL", "ANTHRO", "APPLMATH", "ARABIC", "ARTHUM", "ASTRONOM", "BIBLSTUD", "BIOCHEM", "BIOLOGY", "BIOSTATS", "MTP-RADO", "MTP-TVSN", "MTP-FLDP", "BUSINESS", "CALCULUS", "CGS", "CBE", "CHEMBIO", "CHEM", "CSI", "CHINESE", "CHURCH", "CHURLAW", "CHURMUSI", "CEE", "CLASSICS", "CMBPROG", "COMMSCI", "COMPLIT", "COMPSCI", "DANCE", "DIGICOMM", "MTP-DIGL", "DIGIHUM", "DOL", "DISABST", "EARTHSCI", "ECONOMIC", "EELC", "ECE", "ENGSCI", "ENGLISH", "ENVIRSCI", "EPID", "EPIDEMIO", "FAMLYSTU", "FLDEDUC", "MTP-FILM", "FILM", "FINMOD", "FRSTNATN", "FOODNUTR", "FRENCH", "GEOGRAPH", "GEOLOGY", "GEOPHYS", "GERMAN", "GREEK", "GPE", "HEALTSCI", "HEBREW", "HINDI", "HISTTHEO", "HISTORY", "HISTSCI", "HOMILET", "HUMANECO", "INTEGSCI", "ICC", "INTERDIS", "INTREL", "ITALIAN", "JAPANESE", "JEWISH", "MTP-BRJR", "KINESIOL", "LATIN", "LAW", "LINGUIST", "LITURST", "LITURGIC", "MOS", "MTP-MKTG", "MATH", "MME", "MSE", "MIT", "MEDBIO", "MEDHINFO", "MEDSCIEN", "MEDIEVAL", "MICROIMM", "MORALTHE", "MTP-MMED", "MUSIC", "NEURO", "NURSING", "PASTTHEO", "PATHOL", "PERSIAN", "PHARM", "PHILST", "PHILOSOP", "PHYSICS", "PHYSIOL", "PHYSPHRM", "POLISCI", "PORTUGSE", "PSYCHOL", "REHABSCI", "RELEDUC", "RELSTUD", "SACRTHEO", "SCHOLARS", "SCIENCE", "SOCLJUST", "SOCWORK", "SOCIOLOG", "SE", "SPANISH", "SPEECH", "SPIRTHEO", "STATS", "SUPPAST", "SYSTHEO", "THANAT", "THEATRE", "THEOETH", "THEOLST", "THESIS", "TJ", "VAHISTRY", "VASTUDIO", "WTC", "WOMENST", "WORLDLIT", "WRITING"] 
+courseCodes = ["ACTURSCI", "AMERICAN"]
 data = []
+newArray = []
+l = 0
 
 # Where H is Thursday.
 days = ["M","T","W","H","F"]
@@ -48,73 +51,29 @@ for j, code in enumerate(courseCodes):
         course = captions[0]
         code = captions[1]
         print(course + code)
-
-        for t in soup.find_all('table'):
-            # print('here2')
-            for row in t.find_all('tr'):
-                # print('line 55')
-                a = []
-                l = 0
-                daySequence = ""
-
-                for i, col in enumerate(row.find_all('td')):
-                    try:
-                        if i > 3 and i < 9:
-                            if col.contents[0] and col.contents[0].strip():
-                                daySequence = daySequence + days[i-4]
-                                # print('does this ever fire')
+        for t in soup.find_all(class_='daysTable'):
+            print(t)
+            for i,col in enumerate(soup.find_all('td')):
+                try:
+                    if i>3 and i<10:
+                        if col.contents[0] and col.contents[0].strip():
+                             print('fuck')
+                            #  print(col.contents[0])
+                             print('________________')
+                             print(col.contents[1])
+                             print('________________')
+                             print(col.contents[10])
+                             print('_________________')
                         elif i>8 and i<12:
                             try:
-                                a.append(col.contents[0])
+                                print('new')
+                                print(col.contents[0])
+                                newArray.append(col.contents[0])
+                                print(newArray)
                                 l = l+1
                             except:
-                                # print('pass')
                                 pass
-                        if l == 3:
-                            data.append([captions[0]+ " " + captions[1] +" "+to_military(a[0])+" "+to_military(a[1])+ " " + a[2] + " " + daySequence])                  
-                            print([captions[0]+" " + captions[1]+" "+to_military(a[0])+" "+to_military(a[1])+ " " + a[2] + " " + daySequence])
-                    except:
-                        # print('this code block is not being executed')
-                        pass
-# print(data)
-f.writerows(data)
-
-#     for counter, t in enumerate(soup.find_all('table')):
-        
-#         # for i, caption in enumerate(captions):
-#             # print(caption)
-#         try:
-#             captions = t.find_all('h4')
-#             strings = captions[0].text.split()    
-#             course = strings[0]
-#             code = strings[1]
-#         except:
-#             pass
-#         # soup.find_next('h4')
-
-#         for row in soup.find_all('tr'):
-#             a = []
-#             l = 0
-#             daySequence = ""
-#             for i, col in enumerate(row.find_all('td')):
-#                 if i > 3 and i < 9:
-#                     if col.contents[0] and col.contents[0].strip():
-#                         daySequence = daySequence + days[i - 4]
-#                 elif i > 8 and i < 12:
-#                     try:
-#                         a.append(col.contents[0])
-#                         l = l + 1
-#                     except:
-#                         pass
-#             if l == 3:
-#                 data.append([strings[0]+ " " + strings[1] +" "+to_military(a[0])+" "+to_military(a[1])+ " " + a[2] + " " + daySequence])                  
-#                 print([strings[0]+" " + strings[1]+" "+to_military(a[0])+" "+to_military(a[1])+ " " + a[2] + " " + daySequence])
-# # print(data)
-# f.writerows(data)
-
-
-
-
-
-
-
+                        if l==3:
+                            print(newArray)
+                except:
+                    break
