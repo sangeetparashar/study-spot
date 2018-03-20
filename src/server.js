@@ -32,8 +32,6 @@ app.use(bodyParser.json());
 
 MongoClient.connect('mongodb://admin:YDAUDXSAYQKTKTSD@sl-us-south-1-portal.15.dblayer.com:36486,sl-us-south-1-portal.17.dblayer.com:36486/compose?authSource=admin&ssl=true',
                      function(err, database) {
-                     
-
     assert.equal(null, err);
     console.log("Successfully connected to MongoDB.");
     const db = database.db('CS4471');
