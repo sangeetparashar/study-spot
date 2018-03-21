@@ -13,7 +13,8 @@ def to_military(m):
 
 url = "http://studentservices.uwo.ca/secure/timetables/mastertt/ttindex.cfm"
 
-chromedriver = "./chromedriver"
+chromedriver = "/Users/jasonlee/CS4471/scraper/mac/chromedriver"
+# chromedriver = "./chromedriver"
 
 driver = webdriver.Chrome(chromedriver)
 driver.get(url)
@@ -52,7 +53,15 @@ for j, code in enumerate(courseCodes):
     for element in souparray:
         splitting = element.split('<tr>')
         print('____________________________________________________\n')
-        print(splitting)
+        # print(splitting)
+
+        for eachTag in splitting:
+            firstLine = eachTag.split('</h4>')
+            key = firstLine[0]
+            # print(firstLine)
+            print('\n')
+            print(key)
+            print('\n')
     # print('------------------------------------------------------------')
     # json = soup.findChildren('tr')
     # for element in json:
