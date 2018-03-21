@@ -13,7 +13,7 @@ def to_military(m):
 
 url = "http://studentservices.uwo.ca/secure/timetables/mastertt/ttindex.cfm"
 
-chromedriver = "/Users/jasonlee/CS4471/scraper/chromedriver"
+chromedriver = "./chromedriver"
 
 driver = webdriver.Chrome(chromedriver)
 driver.get(url)
@@ -43,37 +43,50 @@ for j, code in enumerate(courseCodes):
 
     html = driver.page_source
     soup = BeautifulSoup(html, "html.parser")
-
+    json = []
     table = soup.find(class_='table table-striped')
     title = soup.find_all('h4')
+    print('------------------------------------------------------------')
+    json = soup.findChildren('tr')
+    for element in json:
+        soup_string = str(element)
+
+        if ('daysTable' in soup_string) :
+            print(soup_string)
+            print('------------------------------------------------------------')
+        else:
+            continue
+           
+
     for t in title:
         captions = t.text.split()
         course = captions[0]
         code = captions[1]
         print(course + code)
-        for t in soup.find_all(class_='daysTable'):
-            print(t)
-            for i,col in enumerate(soup.find_all('td')):
-                try:
-                    if i>3 and i<10:
-                        if col.contents[0] and col.contents[0].strip():
-                             print('fuck')
-                            #  print(col.contents[0])
-                             print('________________')
-                             print(col.contents[1])
-                             print('________________')
-                             print(col.contents[10])
-                             print('_________________')
-                        elif i>8 and i<12:
-                            try:
-                                print('new')
-                                print(col.contents[0])
-                                newArray.append(col.contents[0])
-                                print(newArray)
-                                l = l+1
-                            except:
-                                pass
-                        if l==3:
-                            print(newArray)
-                except:
-                    break
+        
+
+
+        # for i,col in enumerate(soup.find_all('td')):
+        #     try:
+        #         if i>3 and i<10:
+        #             if col.contents[0] and col.contents[0].strip():
+        #                 #  print(col.contents[0])
+        #                  print('________________')
+        #                  print(col.contents[1])
+        #                  print('________________')
+        #                  print(col.contents[10])
+        #                  print('_________________')
+        #             elif i>8 and i<12:
+        #                 try:
+        #                     print('new')
+        #                     print(col.contents[0])
+        #                     newArray.append(col.contents[0])
+        #             #         print(newArray)
+        #                     l = l+1
+        #                 except:
+        #                     pass
+        #             if l==3:
+        #                 print(newArray)
+        #     except:
+        #         break
+        
