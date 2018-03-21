@@ -49,11 +49,22 @@ for j, code in enumerate(courseCodes):
     title = soup.find_all('h4')
     soupstring = str(table)
     souparray = soupstring.split('<h4>')
+    courses = {}
 
     for element in souparray:
         splitting = element.split('<tr>')
         print('____________________________________________________\n')
         # print(splitting)
+        val = []
+
+        for values in splitting:
+            if('<td width="10%">' in values):
+                print(values)
+                val.append(values)
+                print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+                print('\n')
+            else:
+                continue
 
         for eachTag in splitting:
             firstLine = eachTag.split('</h4>')
@@ -62,6 +73,10 @@ for j, code in enumerate(courseCodes):
             print('\n')
             print(key)
             print('\n')
+            courses.setdefault(key, []).append(val)
+            val = []
+            break
+    print(courses)
     # print('------------------------------------------------------------')
     # json = soup.findChildren('tr')
     # for element in json:
