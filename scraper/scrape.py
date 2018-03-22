@@ -72,8 +72,11 @@ for j, code in enumerate(courseCodes):
                 result = re.sub("<*/*\\n", "\n", result)
                 result = re.sub("</tr </tbody</table", "\n", result)
                 result = re.split("\n", result)
+                result = [el.replace('\xa0',' ') for el in result]
+                result = [ele.replace('</tr',' ') for ele in result]
+                result = [elem.replace('</tbody</table',' ') for elem in result]
                 for i in result:
-                    parsedResult.append(i)
+                    val.append(i)
                     counter += 1
                     if counter == 12:
                         counter = 0
