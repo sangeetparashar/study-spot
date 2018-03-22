@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import Select
 import time
 import csv
 from datetime import datetime
+import re
 
 def to_military(m):
     in_time = datetime.strptime(m, "%I:%M %p")
@@ -50,6 +51,8 @@ for j, code in enumerate(courseCodes):
     soupstring = str(table)
     souparray = soupstring.split('<h4>')
     courses = {}
+    counter = 0
+    parsedResult = []
 
     for element in souparray:
         splitting = element.split('<tr>')
@@ -59,8 +62,26 @@ for j, code in enumerate(courseCodes):
 
         for values in splitting:
             if('<td width="10%">' in values):
-                print(values)
-                val.append(values)
+                # print(values)
+                print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+                #############
+                # result = re.split(r'(?<=>)(.+?)(?=<)',values)
+                result = re.sub("<*?>","",values)
+                result = re.sub("<??td","", result)
+                result = re.sub('width="10%"',"", result)
+                result = re.sub("<*/*\\n", "\n", result)
+                result = re.sub("</tr </tbody</table", "\n", result)
+                result = re.split("\n", result)
+                for i in result:
+                    parsedResult.append(i)
+                    counter += 1
+                    if counter == 12:
+                        counter = 0
+                        break
+                print(parsedResult)
+                #############
+                # print(result.__getattribute__)
+                # val.append(values)
                 print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
                 print('\n')
             else:
@@ -77,20 +98,4 @@ for j, code in enumerate(courseCodes):
             val = []
             break
     print(courses)
-    # print('------------------------------------------------------------')
-    # json = soup.findChildren('tr')
-    # for element in json:
-    #     soup_string = str(element)
 
-    #     if ('daysTable' in soup_string) :
-    #         print(soup_string)
-    #         print('------------------------------------------------------------')
-    #     else:
-    #         continue
-           
-
-    # for t in title:
-    #     captions = t.text.split()
-    #     course = captions[0]
-    #     code = captions[1]
-    #     print(course + code)
