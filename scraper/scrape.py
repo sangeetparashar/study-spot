@@ -14,8 +14,8 @@ def to_military(m):
 
 url = "http://studentservices.uwo.ca/secure/timetables/mastertt/ttindex.cfm"
 
-# chromedriver = "/Users/jasonlee/CS4471/scraper/mac/chromedriver"
-chromedriver = "./chromedriver"
+chromedriver = "/Users/jasonlee/CS4471/scraper/mac/chromedriver"
+# chromedriver = "./chromedriver"
 
 driver = webdriver.Chrome(chromedriver)
 driver.get(url)
