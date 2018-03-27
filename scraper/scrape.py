@@ -6,6 +6,7 @@ import time
 import csv
 from datetime import datetime
 import re
+import json
 
 def to_military(m):
     in_time = datetime.strptime(m, "%I:%M %p")
@@ -20,17 +21,11 @@ chromedriver = "/Users/jasonlee/CS4471/scraper/mac/chromedriver"
 driver = webdriver.Chrome(chromedriver)
 driver.get(url)
 
-courseCodes = ["ACTURSCI", "AMERICAN", "ANATCELL", "ANTHRO", "APPLMATH", "ARABIC", "ARTHUM", "ASTRONOM", "BIBLSTUD", "BIOCHEM", "BIOLOGY", "BIOSTATS", "MTP-RADO", "MTP-TVSN", "MTP-FLDP", "BUSINESS", "CALCULUS", "CGS", "CBE", "CHEMBIO", "CHEM", "CSI", "CHINESE", "CHURCH", "CHURLAW", "CHURMUSI", "CEE", "CLASSICS", "CMBPROG", "COMMSCI", "COMPLIT", "COMPSCI", "DANCE", "DIGICOMM", "MTP-DIGL", "DIGIHUM", "DOL", "DISABST", "EARTHSCI", "ECONOMIC", "EELC", "ECE", "ENGSCI", "ENGLISH", "ENVIRSCI", "EPID", "EPIDEMIO", "FAMLYSTU", "FLDEDUC", "MTP-FILM", "FILM", "FINMOD", "FRSTNATN", "FOODNUTR", "FRENCH", "GEOGRAPH", "GEOLOGY", "GEOPHYS", "GERMAN", "GREEK", "GPE", "HEALTSCI", "HEBREW", "HINDI", "HISTTHEO", "HISTORY", "HISTSCI", "HOMILET", "HUMANECO", "INTEGSCI", "ICC", "INTERDIS", "INTREL", "ITALIAN", "JAPANESE", "JEWISH", "MTP-BRJR", "KINESIOL", "LATIN", "LAW", "LINGUIST", "LITURST", "LITURGIC", "MOS", "MTP-MKTG", "MATH", "MME", "MSE", "MIT", "MEDBIO", "MEDHINFO", "MEDSCIEN", "MEDIEVAL", "MICROIMM", "MORALTHE", "MTP-MMED", "MUSIC", "NEURO", "NURSING", "PASTTHEO", "PATHOL", "PERSIAN", "PHARM", "PHILST", "PHILOSOP", "PHYSICS", "PHYSIOL", "PHYSPHRM", "POLISCI", "PORTUGSE", "PSYCHOL", "REHABSCI", "RELEDUC", "RELSTUD", "SACRTHEO", "SCHOLARS", "SCIENCE", "SOCLJUST", "SOCWORK", "SOCIOLOG", "SE", "SPANISH", "SPEECH", "SPIRTHEO", "STATS", "SUPPAST", "SYSTHEO", "THANAT", "THEATRE", "THEOETH", "THEOLST", "THESIS", "TJ", "VAHISTRY", "VASTUDIO", "WTC", "WOMENST", "WORLDLIT", "WRITING"] 
-data = []
-newArray = []
-l = 0
-
-# Where H is Thursday.
-days = ["M","T","W","H","F"]
-
+# courseCodes = ["ACTURSCI", "AMERICAN", "ANATCELL", "ANTHRO", "APPLMATH", "ARABIC", "ARTHUM", "ASTRONOM", "BIBLSTUD", "BIOCHEM", "BIOLOGY", "BIOSTATS", "MTP-RADO", "MTP-TVSN", "MTP-FLDP", "BUSINESS", "CALCULUS", "CGS", "CBE", "CHEMBIO", "CHEM", "CSI", "CHINESE", "CHURCH", "CHURLAW", "CHURMUSI", "CEE", "CLASSICS", "CMBPROG", "COMMSCI", "COMPLIT", "COMPSCI", "DANCE", "DIGICOMM", "MTP-DIGL", "DIGIHUM", "DOL", "DISABST", "EARTHSCI", "ECONOMIC", "EELC", "ECE", "ENGSCI", "ENGLISH", "ENVIRSCI", "EPID", "EPIDEMIO", "FAMLYSTU", "FLDEDUC", "MTP-FILM", "FILM", "FINMOD", "FRSTNATN", "FOODNUTR", "FRENCH", "GEOGRAPH", "GEOLOGY", "GEOPHYS", "GERMAN", "GREEK", "GPE", "HEALTSCI", "HEBREW", "HINDI", "HISTTHEO", "HISTORY", "HISTSCI", "HOMILET", "HUMANECO", "INTEGSCI", "ICC", "INTERDIS", "INTREL", "ITALIAN", "JAPANESE", "JEWISH", "MTP-BRJR", "KINESIOL", "LATIN", "LAW", "LINGUIST", "LITURST", "LITURGIC", "MOS", "MTP-MKTG", "MATH", "MME", "MSE", "MIT", "MEDBIO", "MEDHINFO", "MEDSCIEN", "MEDIEVAL", "MICROIMM", "MORALTHE", "MTP-MMED", "MUSIC", "NEURO", "NURSING", "PASTTHEO", "PATHOL", "PERSIAN", "PHARM", "PHILST", "PHILOSOP", "PHYSICS", "PHYSIOL", "PHYSPHRM", "POLISCI", "PORTUGSE", "PSYCHOL", "REHABSCI", "RELEDUC", "RELSTUD", "SACRTHEO", "SCHOLARS", "SCIENCE", "SOCLJUST", "SOCWORK", "SOCIOLOG", "SE", "SPANISH", "SPEECH", "SPIRTHEO", "STATS", "SUPPAST", "SYSTHEO", "THANAT", "THEATRE", "THEOETH", "THEOLST", "THESIS", "TJ", "VAHISTRY", "VASTUDIO", "WTC", "WOMENST", "WORLDLIT", "WRITING"] 
+courseCodes = ["ACTURSCI", "AMERICAN"]
 f = csv.writer(open("dict.csv", "w"))
 
-data.append(["Course Code Start End Location Days"])
+sangeet = []
 
 for j, code in enumerate(courseCodes):
 
@@ -45,7 +40,6 @@ for j, code in enumerate(courseCodes):
 
     html = driver.page_source
     soup = BeautifulSoup(html, "html.parser")
-    json = []
     table = soup.find(class_='span12')
     title = soup.find_all('h4')
     soupstring = str(table)
@@ -56,15 +50,11 @@ for j, code in enumerate(courseCodes):
 
     for element in souparray:
         splitting = element.split('<tr>')
-        print('____________________________________________________\n')
         # print(splitting)
         val = []
 
         for values in splitting:
             if('<td width="10%">' in values):
-                # print(values)
-                #############
-                # result = re.split(r'(?<=>)(.+?)(?=<)',values)
                 result = re.sub("<*?>","",values)
                 result = re.sub("<??td","", result)
                 result = re.sub('width="10%"',"", result)
@@ -80,10 +70,6 @@ for j, code in enumerate(courseCodes):
                     if counter == 12:
                         counter = 0
                         break
-                # print(parsedResult)
-                #############
-                # print(result.__getattribute__)
-                # val.append(values)
                 print('\n')
             else:
                 continue
@@ -91,19 +77,14 @@ for j, code in enumerate(courseCodes):
         for eachTag in splitting:
             firstLine = eachTag.split('</h4>')
             key = firstLine[0]
-            # print(firstLine)
-            # print('\n')
-            # print(key)
-            # print('\n')
             courses.setdefault(key, []).append(val)
-            
+            # print(courses)
+
                 # writer = csv.writer(csv_file)
             val = []
-
             break
-    for key, value in courses.items():
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-                 # print(courses.items())
-        f.writerow([key, value])    
-    # print(courses)
+    sangeet.append(courses)
+    with open('data.json', 'w') as fp:
+        json.dump(sangeet, fp)
+
 
