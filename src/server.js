@@ -30,7 +30,7 @@ app.set('view engine', 'html');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-MongoClient.connect('mongodb://admin:YDAUDXSAYQKTKTSD@sl-us-south-1-portal.15.dblayer.com:36486,sl-us-south-1-portal.17.dblayer.com:36486/compose?authSource=admin&ssl=true',
+MongoClient.connect('mongodb://admin:admin@ds155278.mlab.com:55278/4471',
                      function(err, database) {
     assert.equal(null, err);
     console.log("Successfully connected to MongoDB.");
