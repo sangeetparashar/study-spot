@@ -1,6 +1,6 @@
 const { ObjectID } = require('mongodb');
 const { mongoose } = require('./db/db');
-const MongoClient = require('mongodb').MongoClient;
+var fs = require('fs');
 
 var path = require('path');
 var engines = require('consolidate');
@@ -57,6 +57,12 @@ let arrayOfJson = []
         };
 
 
-console.log(arrayOfJson);
-
+        
+        fs.writeFile("./arrayJSON.json", JSON.stringify(arrayOfJson, null, 2), function(err) {
+            if(err) {
+                return console.log(err);
+            }
+        
+            console.log("The file was saved!");
+        }); 
 
